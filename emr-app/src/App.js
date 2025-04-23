@@ -5,8 +5,7 @@ import PatientList from './components/PatientList';
 import PatientDetail from './components/PatientDetail';
 import CreatePatient from './components/CreatePatient';
 
-function App() {
-  return (
+function App()   return (
     <Router>
       <div className="App">
         <Navbar />
