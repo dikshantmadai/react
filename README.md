@@ -11,20 +11,18 @@ A brief description of your project and its purpose.
 - [License](#license)
 - [Contact](#contact)
 
-## About
+## Key features
 
-Provide a detailed description of your project, including:
+- User Authentication
+- Data Visualization
+- Create Patient Records
 
-- Purpose of the project
-- Key features and functionalities
-- Technologies used
-- Any background or context relevant to the project
 
 ## Installation
 
 ### Prerequisites
 
-- List any software or tools needed to run the project (e.g., specific programming languages, libraries, or frameworks).
+- 
 
 ### Setup
 
@@ -35,7 +33,7 @@ Provide a detailed description of your project, including:
     ```
 
 2. Install dependencies:
-    - Example for a Node.js project:
+    - Node.js :
     ```bash
     npm install
     ```
@@ -48,24 +46,6 @@ Provide a detailed description of your project, including:
 
 Provide instructions and examples on how to use your project:
 
-### Running the Application
-
-- Example for running the application:
-    ```bash
-    npm start
-    ```
-
-    Or for a Java application:
-    ```bash
-    mvn spring-boot:run
-    ```
-
-### Example API Calls (if applicable)
-
-- Example:
-    ```bash
-    curl -X GET http://localhost:8080/api/example
-    ```
 
 ## Contributing
 
@@ -99,5 +79,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 For inquiries or further information, contact:
 
-- Your Name - [Your Email Address]
-- Project Link: [GitHub Repository](https://github.com/yourusername/your-project)
+- Your Name - Dikshant Madai
+- Project Link: [GitHub Repository](https://github.com/dikshantmadai/react/)
