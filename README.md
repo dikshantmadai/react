@@ -40,11 +40,6 @@ Provide a detailed description of your project, including:
     npm install
     ```
 
-    - Example for a Java project:
-    ```bash
-    mvn install
-    ```
-
 3. Configure any required environment variables (if applicable).
 
 4. Additional setup instructions (e.g., database setup, third-party services).
