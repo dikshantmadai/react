@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { Container, Row, Col, Form, Button, Alert, Card, Spinner } from "react-bootstrap";
 
 const Register = () => {
   const [errMsg, setErrMsg] = useState(null);
@@ -37,116 +38,157 @@ const Register = () => {
   };
 
   return (
-    <div className="flex h-screen w-full">
-      {/* LEFT - FORM */}
-      <div className="w-full lg:w-[55%] flex items-center justify-center bg-[#0c2d48] px-6">
-        <div className="w-full max-w-lg bg-[#cbd0dc] p-8 rounded-sm shadow-md">
-          <h2 className="text-3xl font-extrabold text-center text-black">SIGN UP</h2>
-          <p className="text-center text-base font-medium text-gray-700 mb-6">Get Started Now</p>
-
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-            {/* First & Last Name */}
-            <div className="flex flex-col lg:flex-row gap-2">
-              <div className="w-full">
-                <label className="block text-sm font-medium">First Name</label>
-                <input
-                  type="text"
-                  className="w-full border border-gray-300 p-2 rounded"
-                  placeholder="First Name"
-                  {...register("firstName", { required: "First Name is required!" })}
-                />
-                {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName.message}</p>}
+    <Container fluid className="vh-100 p-0">
+      <Row className="g-0 h-100">
+        {/* Left Column - Form */}
+        <Col lg={6} className="d-flex align-items-center justify-content-center bg-primary">
+          <Card className="shadow-lg" style={{ width: "100%", maxWidth: "500px" }}>
+            <Card.Body className="p-4 p-md-5">
+              <div className="text-center mb-4">
+                <h2 className="fw-bold text-primary">SIGN UP</h2>
+                <p className="text-muted">Create your account to get started</p>
               </div>
-              <div className="w-full">
-                <label className="block text-sm font-medium">Last Name</label>
-                <input
-                  type="text"
-                  className="w-full border border-gray-300 p-2 rounded"
-                  placeholder="Last Name"
-                  {...register("lastName", { required: "Last Name is required!" })}
-                />
-                {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName.message}</p>}
-              </div>
-            </div>
 
-            {/* Email */}
-            <div>
-              <label className="block text-sm font-medium">Email Address</label>
-              <input
-                type="email"
-                className="w-full border border-gray-300 p-2 rounded"
-                placeholder="email@example.com"
-                {...register("email", { required: "Email Address is required" })}
-              />
-              {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
-            </div>
+              {errMsg?.message && (
+                <Alert variant={errMsg.status === "failed" ? "danger" : "success"} className="text-center">
+                  {errMsg.message}
+                </Alert>
+              )}
 
-            {/* Passwords */}
-            <div className="flex flex-col lg:flex-row gap-2">
-              <div className="w-full">
-                <label className="block text-sm font-medium">Password</label>
-                <input
-                  type="password"
-                  className="w-full border border-gray-300 p-2 rounded"
-                  placeholder="Password"
-                  {...register("password", { required: "Password is required!" })}
-                />
-                {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
-              </div>
-              <div className="w-full">
-                <label className="block text-sm font-medium">Confirm Password</label>
-                <input
-                  type="password"
-                  className="w-full border border-gray-300 p-2 rounded"
-                  placeholder="Confirm Password"
-                  {...register("cPassword", {
-                    validate: (value) => {
-                      const { password } = getValues();
-                      if (value !== password) {
-                        return "Passwords do not match";
+              <Form onSubmit={handleSubmit(onSubmit)}>
+                {/* Name Fields */}
+                <Row className="mb-3">
+                  <Col md={6} className="mb-3 mb-md-0">
+                    <Form.Group>
+                      <Form.Label>First Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="First Name"
+                        isInvalid={!!errors.firstName}
+                        {...register("firstName", { required: "First Name is required!" })}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.firstName?.message}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group>
+                      <Form.Label>Last Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Last Name"
+                        isInvalid={!!errors.lastName}
+                        {...register("lastName", { required: "Last Name is required!" })}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.lastName?.message}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                {/* Email */}
+                <Form.Group className="mb-3">
+                  <Form.Label>Email Address</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="email@example.com"
+                    isInvalid={!!errors.email}
+                    {...register("email", { 
+                      required: "Email Address is required",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "Invalid email address"
                       }
-                    },
-                  })}
-                />
+                    })}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email?.message}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                {/* Password Fields */}
+                <Row className="mb-4">
+                  <Col md={6} className="mb-3 mb-md-0">
+                    <Form.Group>
+                      <Form.Label>Password</Form.Label>
+                      <Form.Control
+                        type="password"
+                        placeholder="Password"
+                        isInvalid={!!errors.password}
+                        {...register("password", { 
+                          required: "Password is required!",
+                          minLength: {
+                            value: 6,
+                            message: "Password must be at least 6 characters"
+                          }
+                        })}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.password?.message}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group>
+                      <Form.Label>Confirm Password</Form.Label>
+                      <Form.Control
+                        type="password"
+                        placeholder="Confirm Password"
+                        isInvalid={!!errors.cPassword}
+                        {...register("cPassword", {
+                          validate: (value) => {
+                            const { password } = getValues();
+                            if (value !== password) {
+                              return "Passwords do not match";
+                            }
+                          },
+                        })}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.cPassword?.message}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Button 
+                  variant="primary" 
+                  type="submit" 
+                  className="w-100 mb-3"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
+                      Creating Account...
+                    </>
+                  ) : "Create Account"}
+                </Button>
+              </Form>
+
+              <div className="text-center mt-3">
+                <p className="text-muted">
+                  Already have an account?{" "}
+                  <Link to="/login" className="text-primary fw-semibold text-decoration-none">
+                    Login
+                  </Link>
+                </p>
               </div>
-            </div>
+            </Card.Body>
+          </Card>
+        </Col>
 
-            {/* Error / Success Message */}
-            {errMsg?.message && (
-              <span
-                className={`text-sm ${
-                  errMsg.status === "failed" ? "text-red-500" : "text-green-500"
-                }`}
-              >
-                {errMsg.message}
-              </span>
-            )}
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full bg-[#0e2a47] text-white py-3 rounded-md"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Creating Account..." : "Create Account"}
-            </button>
-          </form>
-
-          <p className="text-gray-600 text-sm text-center mt-6">
-            Already have an account?
-            <Link to="/login" className="text-[#065ad8] font-medium underline ml-1">
-              Login
-            </Link>
-          </p>
-        </div>
-      </div>
-
-      {/* RIGHT - IMAGE */}
-      <div
-        className="hidden lg:block w-[45%] h-full bg-cover bg-center"
-        style={{ backgroundImage: `url(/assets/signup.png)` }}
-      ></div>
-    </div>
+        {/* Right Column - Image */}
+        <Col lg={6} className="d-none d-lg-block">
+          <div 
+            className="h-100 bg-cover bg-center"
+            style={{ backgroundImage: `url(/assets/signup.png)` }}
+          ></div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
